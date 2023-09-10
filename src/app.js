@@ -2,6 +2,7 @@ import  express  from "express";
 import { productManagerFiles } from "./persist/productManager.js";
 
 
+
 const managerProductService = new productManagerFiles("./src/files/products.json");
 
 
@@ -15,14 +16,33 @@ app.get("/products", async (req,res) =>{
     try {
         const { limit } = req.query;
         const limitNumber = parseInt(limit);
+        let pId = req.params.pId;
+        const idNumber= parseInt(pId)
         const products = await managerProductService.getProducts();
-        if (limit){ const productsLimit = products.slice(0,limitNumber);
-            res.send(productsLimit)
-        } else {
+        if (pId) {products.find((element)=>element.id === idNumber)
+            res.send(pId)}
+        else if (limit){ const productsLimit = products.slice(0,limitNumber);
+            res.send(productsLimit)}
+         else {
         res.send(products);
         }
     } catch (error) {
         res.send("error.message")
     }})
+
+    app.get("/products/:pID", async (req,res) =>{
+        try {
+            const products = await managerProductService.getProducts();
+            const pID = parseInt(req.params.pID)
+            const productoPid = products.find(p=>p.id === pID)
+            
+            if (productoPid) {res.send(productoPid)}
+            else {res.send("el producto no existe")}
+        }
+            
+         catch (error) {
+            res.send("error.message")
+        }})
+
 
 ;
