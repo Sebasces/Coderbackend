@@ -1,3 +1,4 @@
-/node_modules
-/desafio1
-/desagio2
+node_modules/
+desafio1/
+desagio2/
+.DS_Store
