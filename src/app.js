@@ -1,18 +1,23 @@
 import  express  from "express";
-import { productManagerFiles } from "./persist/productManager.js";
+import { productsRouter } from "./routes/productsRoutes.js";
+import { cartRouter } from "./routes/cartRoutes.js"
+/*import { productManagerFiles } from "./persist/productManager.js";*/
 
 
 
-const managerProductService = new productManagerFiles("./src/files/products.json");
+/*const managerProductService = new productManagerFiles("./src/files/products.json");*/
 
 
 const port = 8080;
 
 const app = express ();
 
-app.listen(port,()=>console.log("servidor funcionando"));
+app.listen(port,()=>console.log(`servidor ejecutandose en el ${port}`));
 
-app.get("/products", async (req,res) =>{
+app.use("api/products", productsRouter );
+app.use("api/cart", cartRouter);
+
+/*app.get("/products", async (req,res) =>{
     try {
         const { limit } = req.query;
         const limitNumber = parseInt(limit);
@@ -42,7 +47,7 @@ app.get("/products", async (req,res) =>{
             
          catch (error) {
             res.send("error.message")
-        }})
+        }})*/
 
 
 ;
